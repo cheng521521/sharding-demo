@@ -1,0 +1,27 @@
+spring.shardingsphere.datasource.names=ds-0
+
+  #打开sql显示
+spring.shardingsphere.props.sql.show=true
+
+spring.shardingsphere.datasource.ds-0.url=jdbc:mysql://127.0.0.1:3306/demo_ds_0?useUnicode=true&characterEncoding=utf8&useSSL=false&allowMultiQueries=true&serverTimezone=GMT
+  #spring.shardingsphere.datasource.ds-1.type=com.zaxxer.hikari.HikariDataSource
+spring.shardingsphere.datasource.ds-0.type=com.alibaba.druid.pool.DruidDataSource
+spring.shardingsphere.datasource.ds-0.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.shardingsphere.datasource.ds-0.username=root
+spring.shardingsphere.datasource.ds-0.password=root
+
+  ## mybatis不支持默认多种数据库相互切换
+  #spring.shardingsphere.datasource.ds-0.url=jdbc:postgresql://localhost:5432/test_db
+  ##spring.shardingsphere.datasource.ds-0.type=com.zaxxer.hikari.HikariDataSource
+  #spring.shardingsphere.datasource.ds-0.type=com.alibaba.druid.pool.DruidDataSource
+  #spring.shardingsphere.datasource.ds-0.driver-class-name=org.postgresql.Driver
+  #spring.shardingsphere.datasource.ds-0.username=postgres
+  #spring.shardingsphere.datasource.ds-0.password=root
+
+  ## demo2_test_user 如果有多个数据源，但是不配置（配置失效）的时候，就会随机获取一个数据源进行处理。
+  ##test_user
+spring.shardingsphere.sharding.tables.t_user.actual-data-nodes=ds-0.t_user_$->{0..1}
+  #spring.shardingsphere.sharding.tables.t_user.database-strategy.inline.sharding-column=scope
+  #spring.shardingsphere.sharding.tables.t_user.database-strategy.inline.algorithm-expression=ds-$->{scope%2+1}
+spring.shardingsphere.sharding.tables.t_user.table-strategy.inline.sharding-column=user_id
+spring.shardingsphere.sharding.tables.t_user.table-strategy.inline.algorithm-expression=t_user_$->{user_id%2}

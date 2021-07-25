@@ -1,0 +1,21 @@
+spring:
+    shardingsphere:
+        datasource:
+            ds-0:
+                driver-class-name: com.mysql.cj.jdbc.Driver
+                password: root
+                type: com.alibaba.druid.pool.DruidDataSource
+                url: jdbc:mysql://127.0.0.1:3306/demo_ds_0?useUnicode=true&characterEncoding=utf8&useSSL=false&allowMultiQueries=true&serverTimezone=GMT
+                username: root
+            names: ds-0
+        sharding:
+            tables:
+                t_user:
+                    actual-data-nodes: ds-0.t_user_$->{0..1}
+                    table-strategy:
+                        inline:
+                            algorithm-expression: t_user_$->{user_id%2}
+                            sharding-column: user_id
+        props:
+            sql:
+                show: true
